@@ -19,4 +19,6 @@ module.exports = (Sequelize, DataTypes) => {
 
   // `sequelize.define` also returns the model
   console.log(Contact === Sequelize.models.Contact); // true
+
+  return Contact;
 };

@@ -2,6 +2,7 @@ const express = require("express")
 const bodyparser = require("body-parser")
 const app = express()
 require("../models/index.models.js")
+const userController = require("../controller/user.controller.js")
 
 // instead of this  use require("./models/index.js") to make it more dynamic
 // const User = require("../models/user.models.js")
@@ -12,6 +13,15 @@ app.use(bodyparser.json())
 app.get("/", (req, res) => {
     res.send("<h1>Hello Sequelize World!</h1>")
 })
+
+
+app.use("/addUser", userController.addUser)
+
+app.get("/viewUsers", userController.viewUsers)
+
+app.use("/deleteUser", userController.deleteUser)
+
+app.use("/updateUser", userController.updateUser)
 
 
 // instead of this 

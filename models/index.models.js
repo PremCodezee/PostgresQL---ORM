@@ -3,6 +3,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = new Sequelize("video", "postgres", "12345678", {
   host: "localhost",
   dialect: "postgres",
+  logging: false
 });
 
 try {
@@ -17,8 +18,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require("./user.models.js")(sequelize, DataTypes);
-db.Contact = require("./contacts.models.js")(sequelize, DataTypes);
+db.user = require("./user.models.js")(sequelize, DataTypes);
+db.contact = require("./contacts.models.js")(sequelize, DataTypes);
 
 db.sequelize.sync();
 console.log("All models were synchronized successfully.");
