@@ -36,6 +36,7 @@ app.get("/validateUser", userController.validateUser)
 app.get("/rawQueries", userController.rawQueries)
 
 app.get("/oneToOne", userController.oneToOne)
+app.get("/oneToMany", userController.oneToMany)
 
 // instead of this 
 // User.sync();
