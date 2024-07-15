@@ -29,6 +29,8 @@ app.get("/queryMethods", userController.queryMethods)
 
 app.get("/queryFinders", userController.queryFinders)
 
+app.get("/gettersAndSetters", userController.gettersAndSetters)
+
 
 // instead of this 
 // User.sync();

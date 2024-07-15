@@ -251,6 +251,24 @@ const queryFinders = async (req, res) => {
 
 }
 
+const gettersAndSetters = async (req, res) => {
+  // const data = await User.findAll({
+  //   where: {
+  //     firstName: {
+  //       [Op.like] : 'd%'
+  //     }
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+  // create
+  const data = await User.create({
+    firstName: "Naresh",
+    lastName: "Kumar",
+  });
+  res.status(200).json({ data: data });
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -258,5 +276,6 @@ module.exports = {
   updateUser,
   getOneUser,
   queryMethods,
-  queryFinders
+  queryFinders,
+  gettersAndSetters
 };
