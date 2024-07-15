@@ -27,6 +27,8 @@ app.put("/updateUser/:id", userController.updateUser)
 
 app.get("/queryMethods", userController.queryMethods)
 
+app.get("/queryFinders", userController.queryFinders)
+
 
 // instead of this 
 // User.sync();

@@ -211,6 +211,46 @@ const queryMethods = async (req, res) => {
   // res.status(200).json({ data: data });
 };
 
+const queryFinders = async (req, res) => {
+  // const data = await User.findAll({
+  // const data = await User.findOne({
+  //   where: {
+  //     firstName: {
+  //       [Op.eq]: "Harry",
+  //     },
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+  // find by pk
+  // const data = await User.findByPk(18);
+  // res.status(200).json({ data: data });
+
+  // find and create
+  // const data = await User.findOrCreate({
+  //   where: {
+  //     firstName: "Harry",
+  //   },
+  //   defaults: {
+  //     firstName: "Gal",
+  //     lastName: "Gadoth",
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+  // find and count
+  // const data = await User.findAndCountAll({
+  //   where: {
+  //     firstName: {
+  //       [Op.like] : 'd%'
+  //     }
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -218,4 +258,5 @@ module.exports = {
   updateUser,
   getOneUser,
   queryMethods,
+  queryFinders
 };
