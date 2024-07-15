@@ -25,6 +25,8 @@ app.delete("/deleteUser/:id", userController.deleteUser)
 
 app.put("/updateUser/:id", userController.updateUser)
 
+app.get("/queryMethods", userController.queryMethods)
+
 
 // instead of this 
 // User.sync();

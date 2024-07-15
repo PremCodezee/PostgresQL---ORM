@@ -1,6 +1,7 @@
 const { where } = require("sequelize");
 const db = require("../models/index.models.js");
 const User = db.user;
+const { Sequelize, Op, and } = require("sequelize");
 
 const addUser = async (req, res) => {
   // add user using postman
@@ -90,10 +91,131 @@ const getOneUser = async (req, res) => {
   res.status(200).json({ data: data });
 };
 
+const queryMethods = async (req, res) => {
+  // Insert query
+  // const user = await User.create(
+  //   {
+  //     firstName: "alice",
+  //     lastName: 'WonderLand',
+  //   },
+  //   { fields: ["firstName"] }
+  // );
+  // create bulk
+  // await User.bulkCreate(
+  //   [{ username: "foo" }, { username: "bar", admin: true }],
+  //   {
+  //     fields: ["username"],
+  //   }
+  // );
+
+  // Neither foo nor bar are admins.
+
+  // Find Query
+  // const user = await User.findAll({
+  //   attributes: ["id", "firstName"],
+  // });
+  // Find Query (Renamed Attribute AS Method)
+  // const user = await User.findAll({
+  //   attributes: [["id", "RollNo"], ["firstName", "fName"]],
+  // });
+  // Find Query (Renamed Attribute AS Method) Count with Aggreation
+  // const data = await User.findAll({
+  //   attributes: [
+  //     "firstName",
+  //     [Sequelize.fn("COUNT", Sequelize.col("firstName")), "count"]
+  //   ],
+  //   group: ["firstName"],
+  // });
+  // res.status(200).json({ data: data });
+  // use exclude, include
+  // const data = await User.findAll({
+  //   attributes:{
+  //     // exclude: ['firstName']
+  //     // include: ['firstName']
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+  // where clauses
+  // const data = await User.findAll({
+  // where: {
+  // id: {
+  //   [Op.eq]: 18,
+  // },
+  // },
+  // where: {
+  //   [Op.and]: [{ id: 18 }, { firstName: "Harry" }],
+  // },
+  // where: {
+  //   [Op.or]: [{ id: 18 }, { id: 20 }],
+  // },
+  // these all are where clauses you learn in postgres
+  // });
+  // res.status(200).json({ data: data });
+
+  // delete clause
+  // Delete everyone named "Jane"
+  // await User.destroy({
+  //   where: {
+  //     firstName: 'Jane',
+  //   },
+  // });
+
+  // await User.destroy({
+  //   truncate: true,
+  // });
+  // truncate: true, // truncate true means all data got deleted
+
+  // update clause
+  // Change everyone without a last name to "Doe"
+  // await User.update(
+  //   { lastName: "Doe" },
+  //   {
+  //     where: {
+  //       lastName: null,
+  //     },
+  //   }
+  // );
+
+  // create in bulk
+  // const captains = await Captain.bulkCreate([{ name: 'Jack Sparrow' }, { name: 'Davy Jones' }]);
+
+  // order by
+  // const data = await User.findAll({
+  //   order: [
+  //     ['firstName', 'ASC'],
+  //   ],
+  //   group: "id"
+  // });
+  // res.status(200).json({ data: data });
+
+  // limit
+  // const data = await User.findAll({
+  //   limit: 2,
+  //   offset: 1
+  // });
+  // res.status(200).json({ data: data });
+
+  // count
+  // 1st Method
+  // const data = await User.count();
+  // res.status(200).json({ data: data });
+
+  // 2nd Method
+  // const data = await User.count({
+  //   where: {
+  //     id: {
+  //       [Op.gt]: 15,
+  //     },
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+};
+
 module.exports = {
   addUser,
   viewUsers,
   deleteUser,
   updateUser,
   getOneUser,
+  queryMethods,
 };
