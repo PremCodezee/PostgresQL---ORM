@@ -5,25 +5,17 @@ module.exports = (Sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-        get() {
-          const rawValue = this.getDataValue("firstName");
-          return rawValue ? "Hello " + rawValue.toUpperCase() : null;
-        },
-        set(value) {
-          return this.setDataValue("firstName", "Mr " + value);
+        unique: true,
+        validate: {
+          isAlpha: true,
+          isLowercase: {
+            msg: "Only LowerCase Allowed",
+          },
+          len: [3, 10],
         },
       },
       lastName: {
         type: DataTypes.STRING,
-      },
-      fullName: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return `${this.firstName} ${this.lastName}`;
-        },
-        set(value) {
-          throw new Error("Do not try to set the `fullName` value!");
-        },
       },
     },
     {

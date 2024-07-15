@@ -107,9 +107,7 @@ const queryMethods = async (req, res) => {
   //     fields: ["username"],
   //   }
   // );
-
   // Neither foo nor bar are admins.
-
   // Find Query
   // const user = await User.findAll({
   //   attributes: ["id", "firstName"],
@@ -151,7 +149,6 @@ const queryMethods = async (req, res) => {
   // these all are where clauses you learn in postgres
   // });
   // res.status(200).json({ data: data });
-
   // delete clause
   // Delete everyone named "Jane"
   // await User.destroy({
@@ -159,12 +156,10 @@ const queryMethods = async (req, res) => {
   //     firstName: 'Jane',
   //   },
   // });
-
   // await User.destroy({
   //   truncate: true,
   // });
   // truncate: true, // truncate true means all data got deleted
-
   // update clause
   // Change everyone without a last name to "Doe"
   // await User.update(
@@ -175,10 +170,8 @@ const queryMethods = async (req, res) => {
   //     },
   //   }
   // );
-
   // create in bulk
   // const captains = await Captain.bulkCreate([{ name: 'Jack Sparrow' }, { name: 'Davy Jones' }]);
-
   // order by
   // const data = await User.findAll({
   //   order: [
@@ -187,19 +180,16 @@ const queryMethods = async (req, res) => {
   //   group: "id"
   // });
   // res.status(200).json({ data: data });
-
   // limit
   // const data = await User.findAll({
   //   limit: 2,
   //   offset: 1
   // });
   // res.status(200).json({ data: data });
-
   // count
   // 1st Method
   // const data = await User.count();
   // res.status(200).json({ data: data });
-
   // 2nd Method
   // const data = await User.count({
   //   where: {
@@ -221,11 +211,9 @@ const queryFinders = async (req, res) => {
   //   },
   // });
   // res.status(200).json({ data: data });
-
   // find by pk
   // const data = await User.findByPk(18);
   // res.status(200).json({ data: data });
-
   // find and create
   // const data = await User.findOrCreate({
   //   where: {
@@ -237,7 +225,6 @@ const queryFinders = async (req, res) => {
   //   },
   // });
   // res.status(200).json({ data: data });
-
   // find and count
   // const data = await User.findAndCountAll({
   //   where: {
@@ -247,9 +234,7 @@ const queryFinders = async (req, res) => {
   //   },
   // });
   // res.status(200).json({ data: data });
-
-
-}
+};
 
 const gettersAndSetters = async (req, res) => {
   // const data = await User.findAll({
@@ -267,7 +252,38 @@ const gettersAndSetters = async (req, res) => {
     lastName: "Kumar",
   });
   res.status(200).json({ data: data });
-}
+};
+
+const validateUser = async (req, res) => {
+  var data = {};
+  var messages = {};
+  try {
+    data = await User.create({
+      firstName: "hadi",
+      lastName: "viking",
+    });
+  } catch (error) {
+    error.errors.forEach((err) => {
+      let message;
+      switch (err.validatorKey) {
+        case "isAlpha":
+          message = "Only Alphabets Allowed";
+          break;
+        case "len":
+          message = "Length should be between 3 and 10";
+          break;
+        default:
+          message = err.message;
+          break;
+      }
+      messages[err.path] = message;
+    });
+    res.status(400).json({ messages: messages });
+    return;
+  }
+
+  res.status(200).json({ messages: "Data Added Successfully", data: data });
+};
 
 module.exports = {
   addUser,
@@ -277,5 +293,6 @@ module.exports = {
   getOneUser,
   queryMethods,
   queryFinders,
-  gettersAndSetters
+  gettersAndSetters,
+  validateUser,
 };

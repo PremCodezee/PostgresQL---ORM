@@ -21,7 +21,7 @@ db.sequelize = sequelize;
 db.user = require("./user.models.js")(sequelize, DataTypes);
 db.contact = require("./contacts.models.js")(sequelize, DataTypes);
 
-db.sequelize.sync();
+db.sequelize.sync({force: false});
 console.log("All models were synchronized successfully.");
 
 module.exports = db;

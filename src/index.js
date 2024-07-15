@@ -31,6 +31,7 @@ app.get("/queryFinders", userController.queryFinders)
 
 app.get("/gettersAndSetters", userController.gettersAndSetters)
 
+app.get("/validateUser", userController.validateUser)
 
 // instead of this 
 // User.sync();
