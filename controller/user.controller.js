@@ -329,6 +329,47 @@ const rawQueries = async (req, res) => {
   res.status(200).json({ data: users });
 };
 
+const oneToOne = async (req, res) => {
+  // const data = await User.create({
+  //   firstName: "gungun",
+  //   lastName: "sharma",
+  // });
+
+  // if (data && data.id){
+  //   const contact = await db.contact.create({
+  //     permanentAddress: "surat",
+  //     currentAddress: "gujarat",
+  //     userId: data.id
+  //   });
+
+  //   res.status(200).json({ data: data, contact: contact });
+  // }
+
+  // findAll
+  // const data = await User.findAll({
+  //   attributes:['firstName', 'lastName' ],
+  //   include: [{
+  //     model: db.contact,
+  //     as:'Additional Details',
+  //     attributes: ['permanentAddress', 'currentAddress']
+  //   }],
+  //   where: {id: 2} 
+  // });
+
+
+  const data = await db.contact.findAll({
+    attributes: ['permanentAddress', 'currentAddress'],    
+    include: [{
+      model: User,
+      as:'Personal Details',
+      attributes:['firstName', 'lastName' ],
+    }],
+    where: {id: 2} 
+  });
+
+  res.status(200).json({ data: data });
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -340,4 +381,5 @@ module.exports = {
   gettersAndSetters,
   validateUser,
   rawQueries,
+  oneToOne  
 };

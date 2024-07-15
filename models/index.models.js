@@ -3,7 +3,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = new Sequelize("video", "postgres", "12345678", {
   host: "localhost",
   dialect: "postgres",
-  logging: false
+  logging: false,
 });
 
 try {
@@ -21,7 +21,10 @@ db.sequelize = sequelize;
 db.user = require("./user.models.js")(sequelize, DataTypes);
 db.contact = require("./contacts.models.js")(sequelize, DataTypes);
 
-db.sequelize.sync({force: false});
+db.user.hasMany(db.contact, {foreignKey: "userId", as:'Additional Details'});
+db.contact.belongsTo(db.user, {foreignKey: "userId", as:'Personal Details'});
+
+db.sequelize.sync({ force: false });
 console.log("All models were synchronized successfully.");
 
 module.exports = db;

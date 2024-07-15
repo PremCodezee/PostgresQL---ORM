@@ -1,3 +1,5 @@
+const { INTEGER } = require("sequelize");
+
 module.exports = (Sequelize, DataTypes) => {
   const Contact = Sequelize.define(
     "Contact",
@@ -8,8 +10,8 @@ module.exports = (Sequelize, DataTypes) => {
       },
       currentAddress: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
+      userId: DataTypes.INTEGER
     },
     {
       // Other model options go here
