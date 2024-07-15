@@ -33,6 +33,8 @@ app.get("/gettersAndSetters", userController.gettersAndSetters)
 
 app.get("/validateUser", userController.validateUser)
 
+app.get("/rawQueries", userController.rawQueries)
+
 // instead of this 
 // User.sync();
 // Contact.sync();

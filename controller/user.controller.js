@@ -2,6 +2,7 @@ const { where } = require("sequelize");
 const db = require("../models/index.models.js");
 const User = db.user;
 const { Sequelize, Op, and } = require("sequelize");
+const { QueryTypes } = require("sequelize");
 
 const addUser = async (req, res) => {
   // add user using postman
@@ -285,6 +286,49 @@ const validateUser = async (req, res) => {
   res.status(200).json({ messages: "Data Added Successfully", data: data });
 };
 
+const rawQueries = async (req, res) => {
+  // const users = await db.sequelize.query('SELECT * FROM users', {
+  //   type: QueryTypes.SELECT,
+  //   model: User,
+  //   mapToModel: true,
+  //   plain: false
+  // });
+
+  // res.status(200).json({ data: users });
+
+  // const users = await db.sequelize.query(
+  //   "SELECT * FROM users WHERE id = ?",
+  //   {
+  //     replacements: ["5"],
+  //     type: QueryTypes.SELECT,
+  //   }
+  // );
+
+  // res.status(200).json({ data: users });
+
+
+  // const users = await db.sequelize.query(
+  //   "SELECT * FROM users WHERE id IN(:id)",
+  //   {
+  //     replacements: {id: ['1', '3', '5']},
+  //     type: QueryTypes.SELECT,
+  //   }
+  // );
+
+  // res.status(200).json({ data: users });
+
+  // bind
+  const users = await db.sequelize.query(
+    "SELECT * FROM users WHERE id=$id",
+    {
+      bind: {id: '1'},
+      type: QueryTypes.SELECT,
+    }
+  );
+
+  res.status(200).json({ data: users });
+};
+
 module.exports = {
   addUser,
   viewUsers,
@@ -295,4 +339,5 @@ module.exports = {
   queryFinders,
   gettersAndSetters,
   validateUser,
+  rawQueries,
 };
