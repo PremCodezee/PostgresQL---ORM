@@ -15,13 +15,15 @@ app.get("/", (req, res) => {
 })
 
 
-app.use("/addUser", userController.addUser)
+app.post("/addUser", userController.addUser)
 
 app.get("/viewUsers", userController.viewUsers)
 
-app.use("/deleteUser", userController.deleteUser)
+app.get("/getOneUser/:id", userController.getOneUser)
 
-app.use("/updateUser", userController.updateUser)
+app.delete("/deleteUser/:id", userController.deleteUser)
+
+app.put("/updateUser/:id", userController.updateUser)
 
 
 // instead of this 

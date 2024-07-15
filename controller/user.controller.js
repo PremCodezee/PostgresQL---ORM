@@ -1,30 +1,93 @@
+const { where } = require("sequelize");
 const db = require("../models/index.models.js");
 const User = db.user;
 
 const addUser = async (req, res) => {
-  const jane = await User.create({ firstName: "vin", lastName: "Disel" });
+  // add user using postman
+  const addUser = req.body;
 
-  res.send(jane.toJSON());
-
-  console.log(jane instanceof User); // true
-  console.log(jane.firstName, jane.lastName); // "Jane"
+  try {
+    if (addUser.length > 1) {
+      const result = await User.bulkCreate(addUser);
+      res
+        .status(201)
+        .json({ message: "User created successfully", data: result });
+    } else {
+      const result = await User.create(addUser);
+      res
+        .status(201)
+        .json({ message: "User created successfully", data: result });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const viewUsers = async (req, res) => {
-  const users = await User.findAll();
+  // create find all api
+  try {
+    const users = await User.findAll();
 
-  res.send(users);
+    res.status(200).json({ data: users });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const deleteUser = async (req, res) => {
-  const jane = await User.destroy({ where: { firstName: "John" } });
+  // how i see data while deleting
+
+  try {
+    const result = await User.destroy({
+      where: {
+        id: req.params.id,
+      },
+      truncate: false,
+    });
+
+    if (result > 0) {
+      res
+        .status(200)
+        .json({ message: "User deleted successfully", data: req.params.id });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log(err);
+  }
 };
 
 const updateUser = async (req, res) => {
-  const jane = await User.update(
-    { firstName: "vin" },
-    { where: { firstName: "Dwayne" } }
-  );
+  const { id } = req.params;
+  const updateData = req.body;
+
+  try {
+    const [data] = await User.update(updateData, {
+      where: {
+        id: id,
+      },
+    });
+
+    if (data > 0) {
+      res
+        .status(200)
+        .json({ message: "User updated successfully", data: updateData });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getOneUser = async (req, res) => {
+  const data = await User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json({ data: data });
 };
 
 module.exports = {
@@ -32,4 +95,5 @@ module.exports = {
   viewUsers,
   deleteUser,
   updateUser,
+  getOneUser,
 };
