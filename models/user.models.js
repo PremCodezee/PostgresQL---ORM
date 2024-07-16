@@ -21,6 +21,8 @@ module.exports = (Sequelize, DataTypes) => {
     {
       // Other model options go here
       tableName: "users",
+      paranoid: true,
+      deletedAt: 'softDelete'
     }
   );
 

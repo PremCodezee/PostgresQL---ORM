@@ -443,6 +443,35 @@ const manyToMany = async (req, res) => {
   // }
 };
 
+const paranoid = async (req, res) => {
+  // soft delete and force  
+  // const data = await User.destroy({
+  //   where: {
+  //     id: 2
+  //   },
+  //   // force: true // force true does hard delete
+  // });
+  // res.status(200).json({ data: data });
+
+  // restore from soft delete
+  // const data = await User.restore({
+  //   where: {
+  //     id: 2
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+  // shows data that are soft deleted
+  // const data = await User.findAll({
+  //   where: {
+  //     id: 2
+  //    paranoid: false // for all data
+  //   },
+  //   paranoid: false
+  // });
+  // res.status(200).json({ data: data });
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -457,4 +486,5 @@ module.exports = {
   oneToOne,
   oneToMany,
   manyToMany,
+  paranoid
 };

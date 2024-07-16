@@ -39,6 +39,9 @@ app.get("/oneToOne", userController.oneToOne)
 app.get("/oneToMany", userController.oneToMany)
 app.get("/manyToMany", userController.manyToMany)
 
+
+app.get("/paranoid", userController.paranoid)
+
 // instead of this 
 // User.sync();
 // Contact.sync();
