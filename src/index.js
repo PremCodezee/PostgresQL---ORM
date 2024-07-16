@@ -42,6 +42,8 @@ app.get("/manyToMany", userController.manyToMany)
 
 app.get("/paranoid", userController.paranoid)
 
+app.get("/loading", userController.loading)
+
 // instead of this 
 // User.sync();
 // Contact.sync();

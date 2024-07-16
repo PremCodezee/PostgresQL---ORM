@@ -472,6 +472,35 @@ const paranoid = async (req, res) => {
   // res.status(200).json({ data: data });
 }
 
+const loading = async (req, res) => {
+  //   const data = await User.create({
+  //   firstName: "mary",
+  //   lastName: "kom",
+  // });
+
+  // if (data && data.id){
+  //   const contact = await db.contact.create({
+  //     permanentAddress: "manipur",
+  //     currentAddress: "uttrakand",
+  //     userId: data.id
+  //   });
+
+  //   res.status(200).json({ data: data, contact: contact });
+  // }
+
+
+  const data = await User.findAll({
+    where: {
+      id: 2
+    },
+    include: db.contact
+  });
+
+  res.status(200).json({ data: data });
+
+
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -486,5 +515,6 @@ module.exports = {
   oneToOne,
   oneToMany,
   manyToMany,
-  paranoid
+  paranoid,
+  loading
 };

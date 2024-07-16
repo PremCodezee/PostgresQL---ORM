@@ -23,11 +23,11 @@ db.contact = require("./contacts.models.js")(sequelize, DataTypes);
 db.userContacts = require("./userContacts.models.js")(sequelize, DataTypes, db.user, db.contact);
 
 // db.user.hasOne(db.contact, {foreignKey: "userId", as:'Additional Details'});
-// db.contact.belongsTo(db.user, { foreignKey: "userId", as: "Personal Details" });
-// db.user.hasMany(db.contact, { foreignKey: "userId", as: "Additional Details" });
+db.contact.belongsTo(db.user, {foreignKey: "userId"});
+db.user.hasMany(db.contact, {foreignKey: "userId"});
 
-db.user.belongsToMany(db.contact, { through: db.userContacts });
-db.contact.belongsToMany(db.user, { through: db.userContacts });
+// db.user.belongsToMany(db.contact, { through: db.userContacts });
+// db.contact.belongsToMany(db.user, { through: db.userContacts });
 
 db.sequelize
   .sync({ force: false }) // Use false to preserve data
