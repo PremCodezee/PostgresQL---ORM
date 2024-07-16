@@ -20,15 +20,22 @@ db.sequelize = sequelize;
 
 db.user = require("./user.models.js")(sequelize, DataTypes);
 db.contact = require("./contacts.models.js")(sequelize, DataTypes);
+db.userContacts = require("./userContacts.models.js")(sequelize, DataTypes, db.user, db.contact);
 
 // db.user.hasOne(db.contact, {foreignKey: "userId", as:'Additional Details'});
+// db.contact.belongsTo(db.user, { foreignKey: "userId", as: "Personal Details" });
+// db.user.hasMany(db.contact, { foreignKey: "userId", as: "Additional Details" });
 
-db.contact.belongsTo(db.user, {foreignKey: "userId", as:'Personal Details'});
-db.user.hasMany(db.contact, {foreignKey: "userId", as:'Additional Details'});
+db.user.belongsToMany(db.contact, { through: db.userContacts });
+db.contact.belongsToMany(db.user, { through: db.userContacts });
 
-
-
-db.sequelize.sync({ force: false });
-console.log("All models were synchronized successfully.");
+db.sequelize
+  .sync({ force: false }) // Use false to preserve data
+  .then(() => {
+    console.log("All models were synchronized successfully.");
+  })
+  .catch((error) => {
+    console.error("Error synchronizing models:", error);
+  });
 
 module.exports = db;

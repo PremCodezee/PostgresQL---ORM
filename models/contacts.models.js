@@ -6,12 +6,11 @@ module.exports = (Sequelize, DataTypes) => {
     {
       permanentAddress: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       currentAddress: {
         type: DataTypes.STRING,
       },
-      userId: DataTypes.INTEGER
+      // UserId: DataTypes.INTEGER
     },
     {
       // Other model options go here

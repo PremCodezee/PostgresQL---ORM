@@ -357,7 +357,7 @@ const oneToOne = async (req, res) => {
     include: [
       {
         model: User,
-        as: "Personal Details",
+        // as: "Personal Details",
         attributes: ["firstName", "lastName"],
       },
     ],
@@ -376,7 +376,6 @@ const oneToMany = async (req, res) => {
 
   // res.status(200).json({ contact: contact });
 
-
   //   const data = await User.findAll({
   //   attributes:['firstName', 'lastName' ],
   //   include: [{
@@ -386,19 +385,62 @@ const oneToMany = async (req, res) => {
   //   }],
   // });
 
+  const data = await db.contact.findAll({
+    attributes: ["permanentAddress", "currentAddress"],
+    include: [
+      {
+        model: User,
+        // as: "Personal Details",
+        attributes: ["firstName", "lastName"],
+      },
+    ],
+  });
+
+  res.status(200).json({ data: data });
+};
+
+const manyToMany = async (req, res) => {
+
+  //  const data = await User.create({
+  //   firstName: "manoj",
+  //   lastName: "gupta",
+  // });
+
+  // if (data && data.id){
+  //   const contact = await db.contact.create({
+  //     permanentAddress: "up",
+  //     currentAddress: "india",
+  //   });
+
+  //   res.status(200).json({ data: data, contact: contact });
+  // }
+
+
 
   const data = await db.contact.findAll({
     attributes: ["permanentAddress", "currentAddress"],
     include: [
       {
         model: User,
-        as: "Personal Details",
         attributes: ["firstName", "lastName"],
       },
-    ]
+    ],
   });
 
-  res.status(200).json({ data: data });
+  // res.status(200).json({ data: data });
+
+  // try {
+  //   // Create User and Contact
+  //   const user = await db.user.create({ firstName: "nupur", lastName: "kapoor" });
+  //   const contact = await db.contact.create({ permanentAddress: "haryana", currentAddress: "panipat" });
+
+  //   // Associate User with Contact
+  //   await user.addContact(contact);
+
+  //   res.status(200).json({ user: user, contact: contact });
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
 };
 
 module.exports = {
@@ -414,4 +456,5 @@ module.exports = {
   rawQueries,
   oneToOne,
   oneToMany,
+  manyToMany,
 };
