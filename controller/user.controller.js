@@ -536,6 +536,33 @@ const advancedEager = async (req, res) => {
   res.status(200).json({ data: data});  
 }
 
+const association = async (req, res) => {
+
+  const data = await db.contact.bulkCreate([ // you can also do bulk create 
+    {
+      permanentAddress: "pune",
+      currentAddress: "maharastra",
+      users: {
+        firstName: "yashraj",
+        lastName: "devle"
+      }
+    },
+    {
+      permanentAddress: "nagpur",
+      currentAddress: "maharastra",
+      users: {
+        firstName: "sonu",
+        lastName: "pandit"
+      }
+    }
+  ], {
+    include:[ db.contactUser]
+  })
+
+  res.status(200).json({ data: data });
+
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -552,5 +579,6 @@ module.exports = {
   manyToMany,
   paranoid,
   loading,
-  advancedEager
+  advancedEager,
+  association
 };

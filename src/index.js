@@ -46,6 +46,8 @@ app.get("/loading", userController.loading)
 
 app.get("/advancedEager", userController.advancedEager)
 
+app.get("/association", userController.association)
+
 // instead of this 
 // User.sync();
 // Contact.sync();

@@ -20,17 +20,28 @@ db.sequelize = sequelize;
 
 db.user = require("./user.models.js")(sequelize, DataTypes);
 db.contact = require("./contacts.models.js")(sequelize, DataTypes);
-db.userContacts = require("./userContacts.models.js")(sequelize, DataTypes, db.user, db.contact);
-db.education = require("./education.models.js")(sequelize, DataTypes, db.user, db.contact);
+db.userContacts = require("./userContacts.models.js")(
+  sequelize,
+  DataTypes,
+  db.user,
+  db.contact
+);
+db.education = require("./education.models.js")(
+  sequelize,
+  DataTypes,
+  db.user,
+  db.contact
+);
 
 // db.user.hasOne(db.contact, {foreignKey: "userId", as:'Additional Details'});
-db.contact.belongsTo(db.user, {foreignKey: "userId"});
-db.user.hasMany(db.contact, {foreignKey: "userId"});
+db.contactUser = db.contact.belongsTo(db.user, {
+  foreignKey: "userId",
+  as: "users",
+});
+db.user.hasMany(db.contact, { foreignKey: "userId" });
 
-db.education.belongsTo(db.contact, {foreignKey: "contactId"});
-db.contact.hasMany(db.education, {foreignKey: "contactId"});
-
-
+db.education.belongsTo(db.contact, { foreignKey: "contactId" });
+db.contact.hasMany(db.education, { foreignKey: "contactId" });
 
 // db.user.belongsToMany(db.contact, { through: db.userContacts });
 // db.contact.belongsToMany(db.user, { through: db.userContacts });
