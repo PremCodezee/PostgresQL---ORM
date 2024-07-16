@@ -1,4 +1,3 @@
-const { INTEGER } = require("sequelize");
 
 module.exports = (Sequelize, DataTypes) => {
   const Contact = Sequelize.define(

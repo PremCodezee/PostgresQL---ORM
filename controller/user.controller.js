@@ -501,6 +501,41 @@ const loading = async (req, res) => {
 
 }
 
+const advancedEager = async (req, res) => {
+
+  const data = await User.findAll({
+    // include: [{
+    //   model: db.contact,
+    //   // required: true // req: true means ' INNER JOIN ' without require : ' LEFT JOIN '
+    //   // required: false, // this is manadate for 'RIGHT JOIN'
+    //   // right:true // this is manadate for 'RIGHT JOIN'
+    // }, {
+    //   model: db.education,
+    // }]
+
+    // include: {all: true} // use this for all and all data comes from ' LEFT JOIN '
+
+    // nested eager loading
+    include: [{
+      model: db.contact,
+      include: [{
+        model: db.education,
+        where: {
+          id: 2
+        }
+      }, {
+        where:{
+          id: 2
+        }
+      }]
+    }]
+
+    // include: {all: true, nested: true} // nested keyword includes all nested tables
+  });
+
+  res.status(200).json({ data: data});  
+}
+
 module.exports = {
   addUser,
   viewUsers,
@@ -516,5 +551,6 @@ module.exports = {
   oneToMany,
   manyToMany,
   paranoid,
-  loading
+  loading,
+  advancedEager
 };
