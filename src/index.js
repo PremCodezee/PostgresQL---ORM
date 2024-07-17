@@ -49,6 +49,7 @@ app.get("/advancedEager", userController.advancedEager)
 app.get("/association", userController.association)
 
 app.get("/advanceMNAssociation", userController.advanceMNAssociation)
+app.get("/manyToManyToMany", userController.manyToManyToMany)
 
 // instead of this 
 // User.sync();

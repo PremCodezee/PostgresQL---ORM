@@ -58,8 +58,8 @@ const Grant = sequelize.define(
 
 db.grant = Grant;
 
-db.customer.belongsToMany(db.profile, { through: Grant });
-db.profile.belongsToMany(db.customer, { through: Grant });
+// db.customer.belongsToMany(db.profile, { through: Grant });
+// db.profile.belongsToMany(db.customer, { through: Grant });
 
 // // Setup a One-to-Many relationship between User and Grant
 // db.customer.hasMany(db.grant);
@@ -74,8 +74,44 @@ db.profile.belongsToMany(db.customer, { through: Grant });
 // db.user.belongsToMany(db.contact, { through: db.userContacts });
 // db.contact.belongsToMany(db.user, { through: db.userContacts });
 
+db.player = sequelize.define("Player", { username: DataTypes.STRING });
+db.team = sequelize.define("Team", { name: DataTypes.STRING });
+db.game = sequelize.define("Game", { name: DataTypes.STRING });
+
+ db.gameTeam = sequelize.define("GameTeam", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+});
+db.team.belongsToMany(db.game, { through: db.gameTeam });
+db.game.belongsToMany(db.team, { through: db.gameTeam });
+db.gameTeam.belongsTo(db.game);
+db.gameTeam.belongsTo(db.team);
+db.game.hasMany(db.gameTeam);
+db.team.hasMany(db.gameTeam);
+
+
+db.playerGameTeam = sequelize.define('PlayerGameTeam', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+});
+db.player.belongsToMany(db.gameTeam, { through: db.playerGameTeam });
+db.gameTeam.belongsToMany(db.player, { through: db.playerGameTeam });
+db.playerGameTeam.belongsTo(db.player);
+db.playerGameTeam.belongsTo(db.gameTeam);
+db.player.hasMany(db.playerGameTeam);
+db.gameTeam.hasMany(db.playerGameTeam);
+
+
 db.sequelize
-  .sync({ force: false }) // Use false to preserve data
+  .sync({ force: true }) // Use false to preserve data
   .then(() => {
     console.log("All models were synchronized successfully.");
   })
