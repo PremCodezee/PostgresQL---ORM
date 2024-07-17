@@ -400,7 +400,6 @@ const oneToMany = async (req, res) => {
 };
 
 const manyToMany = async (req, res) => {
-
   //  const data = await User.create({
   //   firstName: "manoj",
   //   lastName: "gupta",
@@ -414,8 +413,6 @@ const manyToMany = async (req, res) => {
 
   //   res.status(200).json({ data: data, contact: contact });
   // }
-
-
 
   const data = await db.contact.findAll({
     attributes: ["permanentAddress", "currentAddress"],
@@ -444,7 +441,7 @@ const manyToMany = async (req, res) => {
 };
 
 const paranoid = async (req, res) => {
-  // soft delete and force  
+  // soft delete and force
   // const data = await User.destroy({
   //   where: {
   //     id: 2
@@ -452,7 +449,6 @@ const paranoid = async (req, res) => {
   //   // force: true // force true does hard delete
   // });
   // res.status(200).json({ data: data });
-
   // restore from soft delete
   // const data = await User.restore({
   //   where: {
@@ -460,7 +456,6 @@ const paranoid = async (req, res) => {
   //   },
   // });
   // res.status(200).json({ data: data });
-
   // shows data that are soft deleted
   // const data = await User.findAll({
   //   where: {
@@ -470,7 +465,7 @@ const paranoid = async (req, res) => {
   //   paranoid: false
   // });
   // res.status(200).json({ data: data });
-}
+};
 
 const loading = async (req, res) => {
   //   const data = await User.create({
@@ -488,21 +483,17 @@ const loading = async (req, res) => {
   //   res.status(200).json({ data: data, contact: contact });
   // }
 
-
   const data = await User.findAll({
     where: {
-      id: 2
+      id: 2,
     },
-    include: db.contact
+    include: db.contact,
   });
 
   res.status(200).json({ data: data });
-
-
-}
+};
 
 const advancedEager = async (req, res) => {
-
   const data = await User.findAll({
     // include: [{
     //   model: db.contact,
@@ -516,52 +507,115 @@ const advancedEager = async (req, res) => {
     // include: {all: true} // use this for all and all data comes from ' LEFT JOIN '
 
     // nested eager loading
-    include: [{
-      model: db.contact,
-      include: [{
-        model: db.education,
-        where: {
-          id: 2
-        }
-      }, {
-        where:{
-          id: 2
-        }
-      }]
-    }]
+    include: [
+      {
+        model: db.contact,
+        include: [
+          {
+            model: db.education,
+            where: {
+              id: 2,
+            },
+          },
+          {
+            where: {
+              id: 2,
+            },
+          },
+        ],
+      },
+    ],
 
     // include: {all: true, nested: true} // nested keyword includes all nested tables
   });
 
-  res.status(200).json({ data: data});  
-}
+  res.status(200).json({ data: data });
+};
 
 const association = async (req, res) => {
-
-  const data = await db.contact.bulkCreate([ // you can also do bulk create 
+  const data = await db.contact.bulkCreate(
+    [
+      // you can also do bulk create
+      {
+        permanentAddress: "pune",
+        currentAddress: "maharastra",
+        users: {
+          firstName: "yashraj",
+          lastName: "devle",
+        },
+      },
+      {
+        permanentAddress: "nagpur",
+        currentAddress: "maharastra",
+        users: {
+          firstName: "sonu",
+          lastName: "pandit",
+        },
+      },
+    ],
     {
-      permanentAddress: "pune",
-      currentAddress: "maharastra",
-      users: {
-        firstName: "yashraj",
-        lastName: "devle"
-      }
-    },
-    {
-      permanentAddress: "nagpur",
-      currentAddress: "maharastra",
-      users: {
-        firstName: "sonu",
-        lastName: "pandit"
-      }
+      include: [db.contactUser],
     }
-  ], {
-    include:[ db.contactUser]
-  })
+  );
 
   res.status(200).json({ data: data });
+};
 
-}
+const advanceMNAssociation = async (req, res) => {
+  // const amidala = await db.customer.create({ username: "p4dm3", points: 1000 });
+  // const queen = await db.profile.create({ name: "Queen" });
+  // await amidala.addProfile(queen, { through: { selfGranted: false } });
+  // const result = await db.customer.findOne({
+  //   where: { username: "p4dm3" },
+  //   include: db.profile,
+  // });
+  // res.status(200).json({ data: result });
+
+  // const amidala = await db.customer.create(
+  //   {
+  //     username: 'p4dm3',
+  //     points: 1000,
+  //     profiles: [
+  //       {
+  //         name: 'Queen',
+  //         grant: {
+  //           selfGranted: true,
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     include: db.profile,
+  //   },
+  // );
+
+  // res.status(200).json({ data: amidala });
+
+  // const result = await db.customer.findOne({
+  //   where: { username: "p4dm3" },
+  //   include: db.profile,
+  // });
+
+  // Although you can emulate those with nested includes, as follows:
+  // const data = await db.customer.findAll({
+  //   include: {
+  //     model: db.grant,
+  //     include: db.profile,
+  //   },
+  // });
+  // res.status(200).json({ data: data });
+
+  const data = await db.customer.findOne({
+    include: {
+      model: db.profile,
+      through: {
+        attributes: ['selfGranted', 'id'],
+      },
+    },
+  });
+
+  res.status(200).json({ data: data });
+};
 
 module.exports = {
   addUser,
@@ -580,5 +634,6 @@ module.exports = {
   paranoid,
   loading,
   advancedEager,
-  association
+  association,
+  advanceMNAssociation,
 };
