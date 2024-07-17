@@ -53,6 +53,8 @@ app.get("/manyToManyToMany", userController.manyToManyToMany)
 
 app.get("/associationScopes", userController.associationScopes)
 
+app.get("/transactions", userController.transactions)
+
 // instead of this 
 // User.sync();
 // Contact.sync();

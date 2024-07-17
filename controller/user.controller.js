@@ -669,57 +669,198 @@ const manyToManyToMany = async (req, res) => {
 };
 
 const associationScopes = async (req, res) => {
-  // const user = await User.create(
-  //   {
-  //     firstName: "john",
-  //     lastName: "doe",
-  //     status: 1,
-  //     Contacts: [
-  //       {
-  //         permanentAddress: "123 Main St",
-  //         currentAddress: "456 Main St",
+  //   // const user = await User.create(
+  //   //   {
+  //   //     firstName: "john",
+  //   //     lastName: "doe",
+  //   //     status: 1,
+  //   //     Contacts: [
+  //   //       {
+  //   //         permanentAddress: "123 Main St",
+  //   //         currentAddress: "456 Main St",
+  //   //       },
+  //   //     ],
+  //   //   },
+  //   //   {
+  //   //     include: [{ model: db.contact, as: "Contacts" }],
+  //   //   }
+  //   // );
+  //   // res.status(200).json({ data: user });
+  //   User.addScope("checkStatus", {
+  //     where: {
+  //       status: 1,
+  //     },
+  //   });
+  //   User.addScope("checkId", {
+  //     where: {
+  //       id: 1,
+  //     },
+  //   });
+  //   User.addScope("includeContact", {
+  //     include:{
+  //        model: db.contact, as: "Contacts" ,
+  //        attributes: ["currentAddress"] ,
+  //     },
+  //   });
+  //   User.addScope("firstNameOnlyFromUser", {
+  //     attributes: ["firstName"],
+  //   });
+  //   User.addScope("limit", {
+  //     limit: 1,
+  //   });
+  //   const user = await User.scope(["includeContact", "firstNameOnlyFromUser", 'limit']).findAll({
+  //     where: {
+  //       id: 1,
+  //     },
+  //   });
+  //   res.status(200).json({ data: user });
+};
+
+const transactions = async (req, res) => {
+  // const t = await db.sequelize.transaction();
+
+  // const data = await User.create({
+  //   firstName: "megha",
+  //   lastName: "big dreams",
+  // });
+  // if (data && data.id) {
+  //   try {
+  //     await db.contact.create({
+  //       permanentAddress: "myhome society",
+  //       currentAddress: "surat St",
+  //       userId: data.id,
+  //     });
+
+  //     await t.commit();
+  //     console.log('Commit');
+  //   } catch (error) {
+  //     await t.rollback();
+  //     await User.destroy({
+  //       where: {
+  //         id: data.id,
   //       },
-  //     ],
-  //   },
-  //   {
-  //     include: [{ model: db.contact, as: "Contacts" }],
+  //     })
+  //     console.log('Rollback');
   //   }
-  // );
+  // }
+  // res.status(200).json({ data: data });
 
-  // res.status(200).json({ data: user });
+  // const data = await User.findAll({
+  //   include: [{ model: db.contact, as: "Contacts" }],
+  // })
 
-  User.addScope("checkStatus", {
-    where: {
-      status: 1,
-    },
-  });
-  User.addScope("checkId", {
-    where: {
-      id: 1,
-    },
-  });
+  // res.status(200).json({ data: data });
 
-  User.addScope("includeContact", {
-    include:{ 
-       model: db.contact, as: "Contacts" ,
-       attributes: ["currentAddress"] ,
-    },
-  });
+  // const data = await db.sequelize.transaction(async (t) => {
+  //   const user = await User.create(
+  //     {
+  //       firstName: "john",
+  //       lastName: "doe",
+  //       status: 1,
+  //       Contacts: [
+  //         {
+  //           permanentAddress: "123 Main St",
+  //           currentAddress: "456 Main St",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       include: [{ model: db.contact, as: "Contacts" }],
+  //       transaction: t,
+  //     }
+  //   );
 
-  User.addScope("firstNameOnlyFromUser", {
-    attributes: ["firstName"], 
-  });
-  User.addScope("limit", {
-    limit: 1, 
-  });
+  //   if (user && user.id) {
+  //     try {
+  //       await db.contact.create(
+  //         {
+  //           permanentAddress: "123 Main St",
+  //           currentAddress: "456 Main St",
+  //           userId: user.id,
+  //         },
+  //         {
+  //           transaction: t,
+  //         }
+  //       );
 
-  const user = await User.scope(["includeContact", "firstNameOnlyFromUser", 'limit']).findAll({
-    where: {
-      id: 1,
-    },
-  });
+  //       await t.commit();
+  //     } catch (error) {
+  //       await t.rollback();
+  //     }
+  //   }
+  // });
 
-  res.status(200).json({ data: user });
+  // const data = await User.create({ firstName: "bjron", lastName: "ragner" });
+
+  // try {
+  //   const result = await db.sequelize.transaction(async (t) => {
+  //     const contact = await Contact.create(
+  //       {
+  //         permanent_address: "lanagrate",
+  //         current_address: "norway",
+  //         UserId: null,
+  //       },
+  //       { transaction: t }
+  //     );
+  //     return contact;
+  //   });
+
+  //   console.log("result " + result);
+  // } catch (error) {
+  //   console.log("error: " + error);
+  // await User.destroy({
+  //   where: {
+  //     id: data.id
+  //   }
+  // })
+  //   })
+  // }
+
+  // res.status(200).json({ data: data });
+
+  const data = await User.create({ firstName: "horik", lastName: "viking" });
+
+  try {
+    const result = await db.sequelize.transaction(async (t) => {
+      if (data && data.id) {
+        const contact = await db.contact.bulkCreate(
+          [
+            {
+              permanentAddress: "norwaay",
+              currentAddress: "galot",
+              userId: null,
+            },
+            {
+              permanentAddress: "mumbai",
+              currentAddress: "juhu",
+              userId: data.id,
+            },
+          ],
+          { transaction: t }
+        );
+
+        return contact;
+      } else {
+        throw new Error("User ID is null or undefined");
+      }
+    });
+
+    console.log("result ", result);
+    res.status(200).json({ data: data, contacts: result });
+  } catch (error) {
+    console.log("error: ", error);
+    if (data && data.id) {
+      await User.destroy({
+        where: {
+          id: data.id,
+        },
+      });
+    }
+
+    res
+      .status(500)
+      .json({ message: "Error creating user and contacts", error });
+  }
 };
 
 module.exports = {
@@ -743,4 +884,5 @@ module.exports = {
   advanceMNAssociation,
   manyToManyToMany,
   associationScopes,
+  transactions,
 };

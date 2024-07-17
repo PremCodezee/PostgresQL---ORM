@@ -9,7 +9,10 @@ module.exports = (Sequelize, DataTypes) => {
       currentAddress: {
         type: DataTypes.STRING,
       },
-      userId: DataTypes.INTEGER
+      userId:{
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
     },
     {
       // Other model options go here
