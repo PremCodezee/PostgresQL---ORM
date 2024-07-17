@@ -109,9 +109,12 @@ db.playerGameTeam.belongsTo(db.gameTeam);
 db.player.hasMany(db.playerGameTeam);
 db.gameTeam.hasMany(db.playerGameTeam);
 
+db.user.hasMany(db.contact, { as: 'Contacts' });
+db.contact.belongsTo(db.user);
+
 
 db.sequelize
-  .sync({ force: true }) // Use false to preserve data
+  .sync({ force: false }) // Use false to preserve data
   .then(() => {
     console.log("All models were synchronized successfully.");
   })

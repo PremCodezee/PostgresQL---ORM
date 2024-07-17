@@ -17,6 +17,10 @@ module.exports = (Sequelize, DataTypes) => {
       lastName: {
         type: DataTypes.STRING,
       },
+      status: { 
+        type: DataTypes.INTEGER
+      },
+
     },
     {
       // Other model options go here

@@ -636,23 +636,23 @@ const manyToManyToMany = async (req, res) => {
     { name: "The Plutonians" },
   ]);
   await db.gameTeam.bulkCreate([
-    { GameId: 1, TeamId: 1 }, 
-    { GameId: 1, TeamId: 2 }, 
-    { GameId: 2, TeamId: 1 }, 
-    { GameId: 2, TeamId: 3 }, 
-    { GameId: 3, TeamId: 2 }, 
-    { GameId: 3, TeamId: 3 }, 
+    { GameId: 1, TeamId: 1 },
+    { GameId: 1, TeamId: 2 },
+    { GameId: 2, TeamId: 1 },
+    { GameId: 2, TeamId: 3 },
+    { GameId: 3, TeamId: 2 },
+    { GameId: 3, TeamId: 3 },
   ]);
   await db.playerGameTeam.bulkCreate([
-    { PlayerId: 1, GameTeamId: 3 }, 
-    { PlayerId: 3, GameTeamId: 3 }, 
-    { PlayerId: 4, GameTeamId: 4 }, 
-    { PlayerId: 5, GameTeamId: 4 }, 
+    { PlayerId: 1, GameTeamId: 3 },
+    { PlayerId: 3, GameTeamId: 3 },
+    { PlayerId: 4, GameTeamId: 4 },
+    { PlayerId: 5, GameTeamId: 4 },
   ]);
 
   const game = await db.game.findOne({
     where: {
-      name: 'Winter Showdown',
+      name: "Winter Showdown",
     },
     include: {
       model: db.gameTeam,
@@ -666,6 +666,60 @@ const manyToManyToMany = async (req, res) => {
     },
   });
   res.status(200).json({ data: game });
+};
+
+const associationScopes = async (req, res) => {
+  // const user = await User.create(
+  //   {
+  //     firstName: "john",
+  //     lastName: "doe",
+  //     status: 1,
+  //     Contacts: [
+  //       {
+  //         permanentAddress: "123 Main St",
+  //         currentAddress: "456 Main St",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     include: [{ model: db.contact, as: "Contacts" }],
+  //   }
+  // );
+
+  // res.status(200).json({ data: user });
+
+  User.addScope("checkStatus", {
+    where: {
+      status: 1,
+    },
+  });
+  User.addScope("checkId", {
+    where: {
+      id: 1,
+    },
+  });
+
+  User.addScope("includeContact", {
+    include:{ 
+       model: db.contact, as: "Contacts" ,
+       attributes: ["currentAddress"] ,
+    },
+  });
+
+  User.addScope("firstNameOnlyFromUser", {
+    attributes: ["firstName"], 
+  });
+  User.addScope("limit", {
+    limit: 1, 
+  });
+
+  const user = await User.scope(["includeContact", "firstNameOnlyFromUser", 'limit']).findAll({
+    where: {
+      id: 1,
+    },
+  });
+
+  res.status(200).json({ data: user });
 };
 
 module.exports = {
@@ -688,4 +742,5 @@ module.exports = {
   association,
   advanceMNAssociation,
   manyToManyToMany,
+  associationScopes,
 };
