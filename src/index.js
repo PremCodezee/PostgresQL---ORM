@@ -62,6 +62,8 @@ app.get("/manyToManyPolymorphicAssociations", userController.manyToManyPolymorph
 
 
 app.get("/queryInterface", userController.queryInterface)
+
+app.get("/subQueries", userController.subQueries)
 // instead of this 
 // User.sync();
 // Contact.sync();

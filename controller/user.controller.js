@@ -977,10 +977,50 @@ const queryInterface = async (req, res) => {
   queryInterface.removeColumn("Person", "petName", {
     /* query options */
   });
-  queryInterface.changeColumn('Person', 'foo', {
+  queryInterface.changeColumn("Person", "foo", {
     type: DataTypes.FLOAT,
     defaultValue: 3.14,
     allowNull: false,
+  });
+  res.status(200).json({ data: data });
+};
+
+const subQueries = async (req, res) => {
+  // async function makePostWithReactions(content, reactionTypes) {
+  //   const post = await db.post.create({ content });
+  //   await db.reaction.bulkCreate(reactionTypes.map(type => ({ type, postId: post.id })));
+  //   return post;
+  // }
+
+  // await makePostWithReactions('Hello World', [
+  //   'Like',
+  //   'Angry',
+  //   'Laugh',
+  //   'Like',
+  //   'Like',
+  //   'Angry',
+  //   'Sad',
+  //   'Like',
+  // ]);
+  // await makePostWithReactions('My Second Post', ['Laugh', 'Laugh', 'Like', 'Laugh']);
+
+  // create query to find all data
+  const data = await db.post.findAll({
+    include: [
+      {
+        model: db.reaction,
+        where: {
+          type: ["Laugh"],
+        },
+        required: false,
+      },
+    ],
+    limit: 3,
+    include: [
+      {
+        model: db.reaction,
+      },
+    ],
   });
   res.status(200).json({ data: data });
 };
@@ -1011,4 +1051,5 @@ module.exports = {
   polymorphicAssociations,
   manyToManyPolymorphicAssociations,
   queryInterface,
+  subQueries,
 };
