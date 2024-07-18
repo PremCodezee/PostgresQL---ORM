@@ -863,6 +863,14 @@ const transactions = async (req, res) => {
   }
 };
 
+const hooks = async (req, res) => {
+
+  const data = await User.create({ firstName: "mami", lastName: 'home' });
+  // const data = await User.findAll({});
+
+  res.status(200).json({ data: data });
+} 
+
 module.exports = {
   addUser,
   viewUsers,
@@ -885,4 +893,5 @@ module.exports = {
   manyToManyToMany,
   associationScopes,
   transactions,
+  hooks
 };

@@ -55,6 +55,8 @@ app.get("/associationScopes", userController.associationScopes)
 
 app.get("/transactions", userController.transactions)
 
+app.get("/hooks", userController.hooks)
+
 // instead of this 
 // User.sync();
 // Contact.sync();
