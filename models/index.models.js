@@ -37,6 +37,8 @@ db.profile = require("./profile.models.js")(sequelize, DataTypes);
 db.comment = require("./comment.models.js")(sequelize, DataTypes, Model);
 db.video = require("./video.models.js")(sequelize, DataTypes, Model);
 db.image = require("./image.models.js")(sequelize, DataTypes, Model);
+db.tag = require("./tag.models.js")(sequelize, DataTypes, Model);
+db.tag_taggable = require("./tagable.models.js")(sequelize, DataTypes, Model);
 
 // db.user.hasOne(db.contact, {foreignKey: "userId", as:'Additional Details'});
 // db.contactUser = db.contact.belongsTo(db.user, {
@@ -121,16 +123,64 @@ db.image.hasMany(db.comment, {
     commentableType: "image",
   },
 });
-db.comment.belongsTo(db.image, { foreignKey: "commentableId", constraints: false });
+db.comment.belongsTo(db.image, {
+  foreignKey: "commentableId",
+  constraints: false,
+});
 
 db.video.hasMany(db.comment, {
-  foreignKey: 'commentableId',
+  foreignKey: "commentableId",
   constraints: false,
   scope: {
-    commentableType: 'video',
+    commentableType: "video",
   },
 });
-db.comment.belongsTo(db.video, { foreignKey: 'commentableId', constraints: false });
+db.comment.belongsTo(db.video, {
+  foreignKey: "commentableId",
+  constraints: false,
+});
+
+db.image.belongsToMany(db.tag, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "image",
+    },
+  },
+  foreignKey: "taggableId",
+  constraints: false,
+});
+
+db.tag.belongsToMany(db.image, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+  },
+  foreignKey: "tagId",
+  constraints: false,
+});
+
+db.video.belongsToMany(db.tag, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+    scope: {
+      taggableType: "video",
+    },
+  },
+  foreignKey: "taggableId",
+  constraints: false,
+});
+
+db.tag.belongsToMany(db.video, {
+  through: {
+    model: db.tag_taggable,
+    unique: false,
+  },
+  foreignKey: 'tagId',
+  constraints: false,
+});
 
 db.sequelize
   .sync({ force: false }) // Use false to preserve data

@@ -58,6 +58,7 @@ app.get("/transactions", userController.transactions)
 app.get("/hooks", userController.hooks)
 
 app.get("/polymorphicAssociations", userController.polymorphicAssociations)
+app.get("/manyToManyPolymorphicAssociations", userController.manyToManyPolymorphicAssociations)
 
 // instead of this 
 // User.sync();

@@ -875,12 +875,10 @@ const polymorphicAssociations = async (req, res) => {
   //   title: "image 3",
   //   url: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
   // });
-
   // var videoData = await db.video.create({
   //   title: "video 3",
   //   text: "learn this 3",
   // });
-
   // if (imageData && imageData.id) {
   //   await db.comment.create({
   //     title: "comment 3",
@@ -888,7 +886,6 @@ const polymorphicAssociations = async (req, res) => {
   //     commentableType: "image",
   //   });
   // }
-
   // if (videoData && videoData.id) {
   //   await db.comment.create({
   //     title: "comment 3",
@@ -896,39 +893,69 @@ const polymorphicAssociations = async (req, res) => {
   //     commentableType: "video",
   //   });
   // }
-
   // res.status(200).json({video: videoData});
   // res.status(200).json({image: imageData});
-
   // fetching data
   // comment in image
   // const data = await db.image.findAll({
   //   include: [{ model: db.comment }],
   // });
-
   // res.status(200).json({ data: data });
-
   // comment in video
   // const data = await db.video.findAll({
   //   include: [{ model: db.comment }],
   // });
-
   // res.status(200).json({ data: data });
-
   // video comment
   // const data = await db.comment.findAll({
   //   include: [{ model: db.video }],
   // });
-
   // res.status(200).json({ data: data });
-
   //image comment
   // const data = await db.comment.findAll({
   //   include: [{ model: db.image }],
   // });
-
   // res.status(200).json({ data: data });
+};
 
+const manyToManyPolymorphicAssociations = async (req, res) => {
+  // var imageData = await db.image.create({
+  //   title: "varu",
+  //   url: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+  // });
+  // var videoData = await db.video.create({
+  //   title: "charu",
+  //   text: "laru",
+  // });
+  // var tagData = await db.tag.create({
+  //   name: "tag mo ma lavu",
+  // });
+  // if (tagData && tagData.id && imageData && imageData.id) {
+  //   await db.tag_taggable.create({
+  //     tagId: tagData.id,
+  //     taggableId: imageData.id,
+  //     taggableType: "image",
+  //   });
+  // }
+  // if (tagData && tagData.id && videoData && videoData.id) {
+  //   await db.tag_taggable.create({
+  //     tagId: tagData.id,
+  //     taggableId: videoData.id,
+  //     taggableType: "video",
+  //   });
+  // }
+  // res.status(200).json({ image: imageData, video: videoData,  tag: tagData });
+  // fetching data
+  // const data = await db.image.findAll({
+  //   include: [{ model: db.tag}],
+  // })
+  // const data = await db.video.findAll({
+  //   include: [{ model: db.tag}],
+  // })
+  // const data = await db.tag.findAll({
+  //   include: [db.image, db.video],
+  // });
+  // res.status(200).json({ data: data });
 };
 
 module.exports = {
@@ -955,4 +982,5 @@ module.exports = {
   transactions,
   hooks,
   polymorphicAssociations,
+  manyToManyPolymorphicAssociations,
 };
