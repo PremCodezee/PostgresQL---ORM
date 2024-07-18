@@ -864,12 +864,72 @@ const transactions = async (req, res) => {
 };
 
 const hooks = async (req, res) => {
-
-  const data = await User.create({ firstName: "mami", lastName: 'home' });
+  const data = await User.create({ firstName: "mami", lastName: "home" });
   // const data = await User.findAll({});
 
   res.status(200).json({ data: data });
-} 
+};
+
+const polymorphicAssociations = async (req, res) => {
+  // var imageData = await db.image.create({
+  //   title: "image 3",
+  //   url: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+  // });
+
+  // var videoData = await db.video.create({
+  //   title: "video 3",
+  //   text: "learn this 3",
+  // });
+
+  // if (imageData && imageData.id) {
+  //   await db.comment.create({
+  //     title: "comment 3",
+  //     commentableId: imageData.id,
+  //     commentableType: "image",
+  //   });
+  // }
+
+  // if (videoData && videoData.id) {
+  //   await db.comment.create({
+  //     title: "comment 3",
+  //     commentableId: videoData.id,
+  //     commentableType: "video",
+  //   });
+  // }
+
+  // res.status(200).json({video: videoData});
+  // res.status(200).json({image: imageData});
+
+  // fetching data
+  // comment in image
+  // const data = await db.image.findAll({
+  //   include: [{ model: db.comment }],
+  // });
+
+  // res.status(200).json({ data: data });
+
+  // comment in video
+  // const data = await db.video.findAll({
+  //   include: [{ model: db.comment }],
+  // });
+
+  // res.status(200).json({ data: data });
+
+  // video comment
+  // const data = await db.comment.findAll({
+  //   include: [{ model: db.video }],
+  // });
+
+  // res.status(200).json({ data: data });
+
+  //image comment
+  // const data = await db.comment.findAll({
+  //   include: [{ model: db.image }],
+  // });
+
+  // res.status(200).json({ data: data });
+
+};
 
 module.exports = {
   addUser,
@@ -893,5 +953,6 @@ module.exports = {
   manyToManyToMany,
   associationScopes,
   transactions,
-  hooks
+  hooks,
+  polymorphicAssociations,
 };

@@ -34,6 +34,9 @@ db.education = require("./education.models.js")(
 );
 db.customer = require("./customer.models.js")(sequelize, DataTypes);
 db.profile = require("./profile.models.js")(sequelize, DataTypes);
+db.comment = require("./comment.models.js")(sequelize, DataTypes, Model);
+db.video = require("./video.models.js")(sequelize, DataTypes, Model);
+db.image = require("./image.models.js")(sequelize, DataTypes, Model);
 
 // db.user.hasOne(db.contact, {foreignKey: "userId", as:'Additional Details'});
 // db.contactUser = db.contact.belongsTo(db.user, {
@@ -42,21 +45,21 @@ db.profile = require("./profile.models.js")(sequelize, DataTypes);
 // });
 // db.user.hasMany(db.contact, { foreignKey: "userId" });
 
-const Grant = sequelize.define(
-  "grant",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    selfGranted: DataTypes.BOOLEAN,
-  },
-  { timestamps: false }
-);
+// const Grant = sequelize.define(
+//   "grant",
+//   {
+//     id: {
+//       type: DataTypes.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//       allowNull: false,
+//     },
+//     selfGranted: DataTypes.BOOLEAN,
+//   },
+//   { timestamps: false }
+// );
 
-db.grant = Grant;
+// db.grant = Grant;
 
 // db.customer.belongsToMany(db.profile, { through: Grant });
 // db.profile.belongsToMany(db.customer, { through: Grant });
@@ -74,44 +77,60 @@ db.grant = Grant;
 // db.user.belongsToMany(db.contact, { through: db.userContacts });
 // db.contact.belongsToMany(db.user, { through: db.userContacts });
 
-db.player = sequelize.define("Player", { username: DataTypes.STRING });
-db.team = sequelize.define("Team", { name: DataTypes.STRING });
-db.game = sequelize.define("Game", { name: DataTypes.STRING });
+// db.player = sequelize.define("Player", { username: DataTypes.STRING });
+// db.team = sequelize.define("Team", { name: DataTypes.STRING });
+// db.game = sequelize.define("Game", { name: DataTypes.STRING });
 
- db.gameTeam = sequelize.define("GameTeam", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
+//  db.gameTeam = sequelize.define("GameTeam", {
+//   id: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true,
+//     allowNull: false,
+//   },
+// });
+// db.team.belongsToMany(db.game, { through: db.gameTeam });
+// db.game.belongsToMany(db.team, { through: db.gameTeam });
+// db.gameTeam.belongsTo(db.game);
+// db.gameTeam.belongsTo(db.team);
+// db.game.hasMany(db.gameTeam);
+// db.team.hasMany(db.gameTeam);
+
+// db.playerGameTeam = sequelize.define('PlayerGameTeam', {
+//   id: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true,
+//     allowNull: false,
+//   },
+// });
+// db.player.belongsToMany(db.gameTeam, { through: db.playerGameTeam });
+// db.gameTeam.belongsToMany(db.player, { through: db.playerGameTeam });
+// db.playerGameTeam.belongsTo(db.player);
+// db.playerGameTeam.belongsTo(db.gameTeam);
+// db.player.hasMany(db.playerGameTeam);
+// db.gameTeam.hasMany(db.playerGameTeam);
+
+// db.user.hasMany(db.contact, { as: 'Contacts' });
+// db.contact.belongsTo(db.user);
+
+db.image.hasMany(db.comment, {
+  foreignKey: "commentableId",
+  constraints: false,
+  scope: {
+    commentableType: "image",
   },
 });
-db.team.belongsToMany(db.game, { through: db.gameTeam });
-db.game.belongsToMany(db.team, { through: db.gameTeam });
-db.gameTeam.belongsTo(db.game);
-db.gameTeam.belongsTo(db.team);
-db.game.hasMany(db.gameTeam);
-db.team.hasMany(db.gameTeam);
+db.comment.belongsTo(db.image, { foreignKey: "commentableId", constraints: false });
 
-
-db.playerGameTeam = sequelize.define('PlayerGameTeam', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
+db.video.hasMany(db.comment, {
+  foreignKey: 'commentableId',
+  constraints: false,
+  scope: {
+    commentableType: 'video',
   },
 });
-db.player.belongsToMany(db.gameTeam, { through: db.playerGameTeam });
-db.gameTeam.belongsToMany(db.player, { through: db.playerGameTeam });
-db.playerGameTeam.belongsTo(db.player);
-db.playerGameTeam.belongsTo(db.gameTeam);
-db.player.hasMany(db.playerGameTeam);
-db.gameTeam.hasMany(db.playerGameTeam);
-
-db.user.hasMany(db.contact, { as: 'Contacts' });
-db.contact.belongsTo(db.user);
-
+db.comment.belongsTo(db.video, { foreignKey: 'commentableId', constraints: false });
 
 db.sequelize
   .sync({ force: false }) // Use false to preserve data

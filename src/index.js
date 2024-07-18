@@ -57,6 +57,8 @@ app.get("/transactions", userController.transactions)
 
 app.get("/hooks", userController.hooks)
 
+app.get("/polymorphicAssociations", userController.polymorphicAssociations)
+
 // instead of this 
 // User.sync();
 // Contact.sync();
