@@ -958,6 +958,33 @@ const manyToManyPolymorphicAssociations = async (req, res) => {
   // res.status(200).json({ data: data });
 };
 
+const queryInterface = async (req, res) => {
+  let data = {};
+  const queryInterface = db.sequelize.getQueryInterface();
+  queryInterface.createTable("Person", {
+    name: db.DataTypes.STRING,
+    isBetaMember: {
+      type: db.DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+  });
+  queryInterface.addColumn("Person", "petName", { type: db.DataTypes.STRING });
+  // change column
+  queryInterface.changeColumn("Person", "petName", {
+    type: db.DataTypes.STRING,
+  });
+  queryInterface.removeColumn("Person", "petName", {
+    /* query options */
+  });
+  queryInterface.changeColumn('Person', 'foo', {
+    type: DataTypes.FLOAT,
+    defaultValue: 3.14,
+    allowNull: false,
+  });
+  res.status(200).json({ data: data });
+};
+
 module.exports = {
   addUser,
   viewUsers,
@@ -983,4 +1010,5 @@ module.exports = {
   hooks,
   polymorphicAssociations,
   manyToManyPolymorphicAssociations,
+  queryInterface,
 };

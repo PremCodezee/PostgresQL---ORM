@@ -60,6 +60,8 @@ app.get("/hooks", userController.hooks)
 app.get("/polymorphicAssociations", userController.polymorphicAssociations)
 app.get("/manyToManyPolymorphicAssociations", userController.manyToManyPolymorphicAssociations)
 
+
+app.get("/queryInterface", userController.queryInterface)
 // instead of this 
 // User.sync();
 // Contact.sync();

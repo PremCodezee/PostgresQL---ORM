@@ -17,6 +17,7 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.DataTypes = DataTypes;
 
 db.user = require("./user.models.js")(sequelize, DataTypes);
 db.contact = require("./contacts.models.js")(sequelize, DataTypes);
